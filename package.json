@@ -1,0 +1,18 @@
+{
+    "name": "dreamview",
+    "version": "0.7.0",
+    "description": "Visiualization of the Apollo simulator.",
+    "main": "app.js",
+    "author": "offline-dreamer",
+    "license": "MIT",
+    "scripts": {
+        "build": "npm install",
+        "start": "node src/app.js"
+    },
+    "dependencies": {
+        "async": "^2.6.0",
+        "body-parser": "^1.18.2",
+        "express": "^4.16.2",
+        "ws": "^3.3.1"
+    }
+}
