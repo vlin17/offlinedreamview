@@ -14,8 +14,7 @@ const routes = require('./routes');
 
 
 /** Parameters **/
-const port = 8888;
-
+const port = process.env.PORT || 8888;
 
 /** Initialization **/
 const app = express();
