@@ -21,13 +21,13 @@ router.get('/map', (req, res) => {
 	const col = req.query.col;
 	const imageName = `0.05_${row}_${col}_1024.png`;
 	const imagePath = path.join(__dirname, '../../map', mapId, imageName);
-	res.sendfile(imagePath);
+	res.sendFile(imagePath);
 });
 
 router.get('/ground/meta/:id', (req, res) => {
 	const mapId = req.params.id;
     const metaInfoPath = path.join(__dirname, `../../map/${mapId}/metaInfo.json`);
-    // console.log(metaInfoPath);
+
     fs.readFile(metaInfoPath, 'utf-8', (error, meta) => {
     	if (error) {
     		throw error;
