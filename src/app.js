@@ -11,7 +11,6 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const routes = require('./routes');
-// const ws = require('./routes/websocket_service');
 
 
 /** Parameters **/
@@ -45,7 +44,6 @@ app.all('*', function (req, res, next) {
 });
 
 app.use(routes);
-// app.use(ws);
 
 
 const server = http.createServer(app);
@@ -58,43 +56,6 @@ const wss = new WebSocket.Server({ server });
 
 
 /** main logic **/
-
-// function handleFrameDataRequest(ws, config) {
-//     console.log("received request: ", config);
-
-//     const numFrames = 336;
-//     const fileNames = [...Array(numFrames).keys()];
-//     async.eachSeries(fileNames,
-//         (filename, callback) => {
-//             const filepath = path.join(__dirname, `../output_data/${config.id}/${filename+1}.json`);
-//             // console.log(config.clientId, ', processing file:', filepath);
-
-//             const data = fs.readFileSync(filepath, 'utf-8');
-//             setTimeout(() => {
-//                 if (ws.isAlive) {
-//                     ws.send(data.replace('\n', ''));
-//                     callback();
-//                 } else {
-//                     callback('stop');
-//                 }
-
-//             }, 50);
-//             // fs.readFile(filepath, (error, data) => {
-//             // 	setTimeout(() => {
-//             // 		ws.send(data + ',' + config.clientId);
-//             // 		callback();
-//             // 	}, 2000);
-//             // });
-
-//         }, (error) => {
-//             if (error) {
-//                 console.error(error);
-//             } else {
-//                 console.log("All files have been processed successfully");
-//             }
-//         });
-// }
-
 function handleSimulationWorldRequest(ws, input) {
     if (input.jobId === undefined || input.frameId === undefined) {
         return;
@@ -161,33 +122,19 @@ wss.on('connection', function connection(ws, req) {
 
         switch (message.type) {
             case "RetrieveGroundMeta":
-                console.log("RetrieveGroundMeta....");
                 handleGroundMetaRequest(ws, message.data);
                 break;
             case "RetrieveFrameCount":
-                console.log("RetrieveFrameCount....");
                 handleFrameCountRequest(ws, message.id);
                 break;
-            // case "RetrieveFrameData":
-            //     console.log("handleFrameDataRequest....");
-            //     handleFrameDataRequest(ws, message.data);
-            //     break;
             case "RequestSimulationWorld":
                 handleSimulationWorldRequest(ws, message);
-                break;
-                // case "RetrieveMapData":
-                //     handleMapDataRequest(ws, message.elements);
-                //     break;
-            case "Echo":
-                // console.log("Got echo data: ", message.data);
-                ws.send(message.data);
                 break;
         }
     });
 
     ws.on('close', function close() {
         ws.isAlive = false;
-        console.log('====> disconnected');
     });
 });
 
