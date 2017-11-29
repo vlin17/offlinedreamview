@@ -6,6 +6,7 @@
     "author": "offline-dreamer",
     "license": "MIT",
     "engines": { "node" : ">= 6.10.3" },
+    "engines": { "node" : ">= 6.10.3" }
     "scripts": {
         "build": "npm install",
         "start": "node src/app.js"
