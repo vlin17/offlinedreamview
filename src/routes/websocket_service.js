@@ -1,6 +1,8 @@
 const path = require('path');
 const fs = require('fs');
 
+const adu_data_path = process.env.adu_data_path;
+
 function handleSimulationWorldRequest(ws, input) {
     if (input.jobId === undefined || input.frameId === undefined) {
         return;
@@ -9,7 +11,7 @@ function handleSimulationWorldRequest(ws, input) {
     console.log("handleSimulationWorldRequest:", input);
     const jobId = input.jobId;
     const frameId = input.frameId;
-    const filepath = path.join(__dirname, `../../data/offlineview/${jobId}/${frameId}.json`);
+    const filepath = path.join(adu_data_path, `/offlineview/${jobId}/${frameId}.json`);
     fs.readFile(filepath, 'utf8', (error, data) => {
         if (error) {
             console.error("Error reading simulation world frame data: ", filepath);
@@ -23,7 +25,7 @@ function handleSimulationWorldRequest(ws, input) {
 }
 
 function handleFrameCountRequest(ws, id) {
-    const filepath = path.join(__dirname, `../../data/offlineview/${id}/index.meta`);
+    const filepath = path.join(adu_data_path, `/offlineview/${id}/index.meta`);
     fs.readFile(filepath, 'utf8', (error, data) => {
         if (error) {
             console.error("Error reading index.meta: ", filepath);
@@ -42,7 +44,7 @@ function handleFrameCountRequest(ws, id) {
 
 function handleGroundMetaRequest(ws, input) {
     const mapId = input.mapId;
-    const metaInfoPath = path.join(__dirname, `../../data/map/${mapId}/metaInfo.json`);
+    const metaInfoPath = path.join(adu_data_path, `/map/${mapId}/metaInfo.json`);
 
     const data = fs.readFileSync(metaInfoPath, 'utf-8');
     if (ws.isAlive) {
