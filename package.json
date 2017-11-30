@@ -9,7 +9,7 @@
     "node": ">= 6.10.3"
   },
   "scripts": {
-    "build": "npm install",
+    "build": "npm install; apt-get install zip",
     "start": "node src/app.js"
   },
   "dependencies": {

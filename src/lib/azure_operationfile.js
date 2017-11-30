@@ -27,7 +27,7 @@ function OperationfileAzure() {
     };
 
     this.pullMapImagedata = function (mapid, callback) {
-        var tmpPath = path.join(__dirname, '.', 'map.zip');
+        var tmpPath = path.join(adu_data_path, '/tmp/', 'map.zip');
         var aduDataPath = adu_data_path;
         this.pullData(mapid, tmpPath, 'imaged-map', '.zip', function(result) {
             if (1 === result) {
@@ -44,7 +44,7 @@ function OperationfileAzure() {
     };
 
     this.pullOfflineViewdata = function (recordId, callback) {
-        var tmpPath = path.join(__dirname, '.', 'map.zip');
+        var tmpPath = path.join(adu_data_path, '/tmp/', 'offlineview.zip');
         var aduDataPath = adu_data_path;
         this.pullData(recordId, tmpPath, 'offlineview', '.zip', function(result) {
             if (1 === result) {
