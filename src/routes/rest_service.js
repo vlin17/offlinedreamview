@@ -7,10 +7,9 @@ const console = require('console')
 const router = express.Router();
 
 const env = process.env.NODE_ENV || 'development_azure';
-const config = require(path.join(__dirname, '..', 'config', 'config.json'))[env];
 
 const OperationfileAzure = require('../lib/azure_operationfile');
-const AzureBlob = new OperationfileAzure(config);
+const AzureBlob = new OperationfileAzure();
 
 
 router.get('/', (req, res) => {
