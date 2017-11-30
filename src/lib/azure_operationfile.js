@@ -34,7 +34,7 @@ function OperationfileAzure() {
                 console.log('ERROR', 'pull map error');
                 callback();
             } else {
-                console.log('INFO', 'pull map ok');
+                console.log('INFO', 'pull map ok under ', aduDataPath);
                 shell.exec('mkdir -p ' + aduDataPath + '/map/');
                 var tarCommand = 'unzip -o ' + tmpPath + ' -d ' + aduDataPath + '/map/';
                 var tarResult  = shell.exec(tarCommand);
@@ -51,7 +51,7 @@ function OperationfileAzure() {
                 console.log('ERROR', 'pull offline view error');
                 callback();
             } else {
-                console.log('INFO', 'pull offline view ok');
+                console.log('INFO', 'pull offline view ok under', aduDataPath);
                 shell.exec('mkdir -p ' + aduDataPath + '/offlineview/');
                 var tarCommand = 'unzip -o ' + tmpPath + ' -d ' + aduDataPath + '/offlineview/';
                 var tarResult  = shell.exec(tarCommand);
