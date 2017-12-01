@@ -27,35 +27,33 @@ function OperationfileAzure() {
     };
 
     this.pullMapImagedata = function (mapid, callback) {
-        var tmpPath = path.join(adu_data_path, '/tmp/', 'map.zip');
-        var aduDataPath = adu_data_path;
+        shell.exec('mkdir -p ' + adu_data_path + '/map/');
+        var tmpPath = path.join(adu_data_path, '/map/', `${mapid}.zip`);
         this.pullData(mapid, tmpPath, 'imaged-map', '.zip', function(result) {
             if (1 === result) {
                 console.log('ERROR', 'pull map error');
-                callback();
+                callback(false);
             } else {
-                console.log('INFO', 'pull map ok under ', aduDataPath);
-                shell.exec('mkdir -p ' + aduDataPath + '/map/');
-                var tarCommand = 'unzip -o ' + tmpPath + ' -d ' + aduDataPath + '/map/';
+                console.log('INFO', 'pull map ok under ', adu_data_path);
+                var tarCommand = 'unzip -o ' + tmpPath + ' -d ' + adu_data_path + '/map/';
                 var tarResult  = shell.exec(tarCommand);
-                callback();
+                callback(true);
             }
         });
     };
 
     this.pullOfflineViewdata = function (recordId, callback) {
-        var tmpPath = path.join(adu_data_path, '/tmp/', 'offlineview.zip');
-        var aduDataPath = adu_data_path;
+        shell.exec('mkdir -p ' + adu_data_path + '/offlineview/');
+        var tmpPath = path.join(adu_data_path, '/offlineview/', `${recordId}.zip`);
         this.pullData(recordId, tmpPath, 'offlineview', '.zip', function(result) {
             if (1 === result) {
                 console.log('ERROR', 'pull offline view error');
-                callback();
+                callback(false);
             } else {
-                console.log('INFO', 'pull offline view ok under', aduDataPath);
-                shell.exec('mkdir -p ' + aduDataPath + '/offlineview/');
-                var tarCommand = 'unzip -o ' + tmpPath + ' -d ' + aduDataPath + '/offlineview/';
+                console.log('INFO', 'pull offline view ok under', adu_data_path);
+                var tarCommand = 'unzip -o ' + tmpPath + ' -d ' + adu_data_path + '/offlineview/';
                 var tarResult  = shell.exec(tarCommand);
-                callback();
+                callback(true);
             }
         });
     };

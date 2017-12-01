@@ -8,7 +8,6 @@ function handleSimulationWorldRequest(ws, input) {
         return;
     }
 
-    console.log("handleSimulationWorldRequest:", input);
     const jobId = input.jobId;
     const frameId = input.frameId;
     const filepath = path.join(adu_data_path, `/offlineview/${jobId}/${frameId}.json`);
@@ -19,7 +18,9 @@ function handleSimulationWorldRequest(ws, input) {
         }
 
         if (ws.isAlive) {
+            // setTimeout( () => {
             ws.send(data.replace('\n', ''));
+            // }, 2000);
         }
     });
 }
@@ -37,25 +38,26 @@ function handleFrameCountRequest(ws, id) {
                 type: 'FrameCount',
                 data: data,
             }));
-        }        
+        }
         console.log("frame count:", data);
     });
 }
 
-function handleGroundMetaRequest(ws, input) {
-    const mapId = input.mapId;
+function handleGroundMetaRequest(ws, mapId) {
     const metaInfoPath = path.join(adu_data_path, `/map/${mapId}/metaInfo.json`);
 
-    const data = fs.readFileSync(metaInfoPath, 'utf-8');
-    if (ws.isAlive) {
-        ws.send(JSON.stringify({
-            type: 'GroundMetadata',
-            data: {
-                mapId: mapId,
-                metadata: JSON.parse(data)[mapId],
-            }
-        }));
+    try {
+        const data = fs.readFileSync(metaInfoPath, 'utf-8');
+        if (ws.isAlive) {
+            ws.send(JSON.stringify({
+                type: 'GroundMetadata',
+                data: JSON.parse(data)[mapId],
+            }));
+        }
+    } catch (error) {
+        console.log("Failed to handleGroundMetaRequest:", error);
     }
+
 }
 
 
@@ -70,10 +72,11 @@ function connection(ws, req) {
 
         switch (message.type) {
             case "RetrieveGroundMeta":
-                handleGroundMetaRequest(ws, message.data);
+                console.log(message);
+                handleGroundMetaRequest(ws, message.mapId);
                 break;
             case "RetrieveFrameCount":
-                handleFrameCountRequest(ws, message.id);
+                handleFrameCountRequest(ws, message.jobId);
                 break;
             case "RequestSimulationWorld":
                 handleSimulationWorldRequest(ws, message);
@@ -88,5 +91,5 @@ function connection(ws, req) {
 }
 
 module.exports = {
-	connection,
+    connection,
 }

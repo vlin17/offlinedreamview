@@ -23,10 +23,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-/***** used for development only ****
-    allow cross domain 
- */
-app.all('*', function (req, res, next) {
+app.get('*.js', function(req, res, next) {
+    req.url = req.url + '.gz';
+    res.set('Content-Encoding', 'gzip');
+    next();
+});
+
+/***** development purpose only *****
+ *****   allow cross domain      ****
+ ************************************/
+app.all('*', function(req, res, next) {
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers',
@@ -35,8 +41,7 @@ app.all('*', function (req, res, next) {
 
     if (req.method === 'OPTIONS') {
         res.send(200);
-    }
-    else {
+    } else {
         next();
     }
 });
