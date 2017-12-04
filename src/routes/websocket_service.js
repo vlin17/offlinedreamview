@@ -11,16 +11,21 @@ function handleSimulationWorldRequest(ws, input) {
     const jobId = input.jobId;
     const frameId = input.frameId;
     const filepath = path.join(adu_data_path, `/offlineview/${jobId}/${frameId}.json`);
+
     fs.readFile(filepath, 'utf8', (error, data) => {
         if (error) {
             console.error("Error reading simulation world frame data: ", filepath);
             return;
         }
-
-        if (ws.isAlive) {
+        try {
             // setTimeout( () => {
-            ws.send(data.replace('\n', ''));
+                if (ws.isAlive) {
+                    console.log("SimulationWorldResponse:", frameId);
+                    ws.send(data.replace('\n', ''));
+                }
             // }, 2000);
+        } catch (error) {
+            console.log("Failed to handleSimulationWorldRequest:", error);
         }
     });
 }
@@ -39,7 +44,6 @@ function handleFrameCountRequest(ws, id) {
                 data: data,
             }));
         }
-        console.log("frame count:", data);
     });
 }
 
@@ -72,7 +76,6 @@ function connection(ws, req) {
 
         switch (message.type) {
             case "RetrieveGroundMeta":
-                console.log(message);
                 handleGroundMetaRequest(ws, message.mapId);
                 break;
             case "RetrieveFrameCount":
