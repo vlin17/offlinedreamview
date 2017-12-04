@@ -18,12 +18,13 @@ function handleSimulationWorldRequest(ws, input) {
             return;
         }
         try {
-            // setTimeout( () => {
+            const delay = Math.random() * 3000;
+            setTimeout( () => {
                 if (ws.isAlive) {
-                    console.log("SimulationWorldResponse:", frameId);
+                    console.log("SimulationWorldResponse:", frameId, " delay:", delay, ' ms');
                     ws.send(data.replace('\n', ''));
                 }
-            // }, 2000);
+            }, delay);
         } catch (error) {
             console.log("Failed to handleSimulationWorldRequest:", error);
         }
