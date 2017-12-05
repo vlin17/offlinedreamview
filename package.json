@@ -9,13 +9,14 @@
     "node": ">= 6.10.3"
   },
   "scripts": {
-    "build": "npm install; apt-get install zip",
+    "build": "npm install",
     "start": "node src/app.js"
   },
   "dependencies": {
     "async": "^2.6.0",
     "azure-storage": "^2.6.0",
     "body-parser": "^1.18.2",
+    "compression": "^1.7.1",
     "express": "^4.16.2",
     "shelljs": "^0.7.8",
     "ws": "^3.3.1"

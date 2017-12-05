@@ -12,8 +12,7 @@ const AzureBlob = new OperationfileAzure();
 const adu_data_path = process.env.adu_data_path;
 
 router.get('/', (req, res) => {
-    res.set('Content-Encoding', 'gzip');
-    const dreamviewPath = path.join(adu_data_path, '../public/index.html');
+    const dreamviewPath = path.join(__dirname, '../public/offlineview/index.html');
     res.sendfile(dreamviewPath);
 });
 

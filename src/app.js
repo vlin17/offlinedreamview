@@ -2,6 +2,7 @@
 
 /** Import modules **/
 const express = require('express');
+const compression = require('compression');
 const http = require('http');
 const url = require('url');
 const WebSocket = require('ws');
@@ -17,17 +18,11 @@ const port = process.env.PORT || 8888;
 
 /** Initialization **/
 const app = express();
-
+app.use(compression());
 app.use(bodyParser.json({ limit: '1024kb' }));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-app.get('*.js', function(req, res, next) {
-    req.url = req.url + '.gz';
-    res.set('Content-Encoding', 'gzip');
-    next();
-});
 
 /***** development purpose only *****
  *****   allow cross domain      ****
@@ -50,7 +45,10 @@ app.use(restService);
 
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const wss = new WebSocket.Server({
+    server: server,
+    perMessageDeflate: true,
+});
 wss.on('connection', wsService.connection);
 
 
