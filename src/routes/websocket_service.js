@@ -1,7 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-const adu_data_path = process.env.adu_data_path;
+const adu_data_path = process.env.adu_data_path || '/apollo/modules/dreamviewServer/data';
 
 function handleSimulationWorldRequest(ws, input) {
     if (input.jobId === undefined || input.frameId === undefined) {
@@ -53,10 +53,22 @@ function handleGroundMetaRequest(ws, mapId) {
 
     try {
         const data = fs.readFileSync(metaInfoPath, 'utf-8');
+        const meta = JSON.parse(data)[mapId];
+        const reply = {
+            hnum: meta.hnum,
+            wnum: meta.wnum,
+            top: meta.top + meta.yoffset,
+            left: meta.left + meta.xoffset,
+            tile: meta.tile,
+            mpp: meta.mpp,
+            mapid: meta.mapid,
+        }
+
+        console.log(meta);
         if (ws.isAlive) {
             ws.send(JSON.stringify({
                 type: 'GroundMetadata',
-                data: JSON.parse(data)[mapId],
+                data: reply,
             }));
         }
     } catch (error) {
