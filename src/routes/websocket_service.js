@@ -21,12 +21,12 @@ function handleSimulationWorldRequest(ws, input) {
             const delay = Math.random() * 3000;
             setTimeout( () => {
                 if (ws.isAlive) {
-                    console.log("SimulationWorldResponse:", frameId, " delay:", delay, ' ms');
+                    //console.log("SimulationWorldResponse:", frameId, " delay:", delay, ' ms');
                     ws.send(data.replace('\n', ''));
                 }
             }, delay);
         } catch (error) {
-            console.log("Failed to handleSimulationWorldRequest:", error);
+            console.log("Failed to handle SimulationWorldRequest:", error);
         }
     });
 }
@@ -62,9 +62,9 @@ function handleGroundMetaRequest(ws, mapId) {
             tile: meta.tile,
             mpp: meta.mpp,
             mapid: meta.mapid,
+            image_url: process.env.image_url ,
         }
 
-        console.log(meta);
         if (ws.isAlive) {
             ws.send(JSON.stringify({
                 type: 'GroundMetadata',
@@ -72,7 +72,7 @@ function handleGroundMetaRequest(ws, mapId) {
             }));
         }
     } catch (error) {
-        console.log("Failed to handleGroundMetaRequest:", error);
+        console.log("Failed to handle GroundMetaRequest:", error);
     }
 
 }
