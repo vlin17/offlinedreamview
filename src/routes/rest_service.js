@@ -17,18 +17,19 @@ router.get('/', (req, res) => {
 });
 
 
-// router.get('/map/getMapPic', (req, res) => {
-//     /* allow cross origin requests */
-//     res.header('Access-Control-Allow-Origin', '*');
+router.get('/map/getMapPic', (req, res) => {
+    /* allow cross origin requests */
+    res.header('Access-Control-Allow-Origin', '*');
 
-//     const mapId = req.query.mapId;
-//     const row = req.query.i;
-//     const col = req.query.j;
-//     const imageName = `0.05_${row}_${col}_1024.png`;
-//     const imagePath = path.join(adu_data_path, '/map', mapId, imageName);
+    const mapId = req.query.mapId;
+    const row = req.query.i;
+    const col = req.query.j;
+    const imageName = `0.05_${row}_${col}_1024.png`;
+    const imagePath = path.join(adu_data_path, '/map', mapId, imageName);
+    console.log(imagePath);
 
-//     res.sendFile(imagePath);
-// });
+    res.sendFile(imagePath);
+});
 
 // router.get('/ground/meta/:id', (req, res) => {
 //     const mapId = req.params.id;

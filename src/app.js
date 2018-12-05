@@ -14,7 +14,7 @@ const restService = require('./routes/rest_service');
 const wsService = require('./routes/websocket_service');
 
 /** Parameters **/
-const port = process.env.PORT || 8888;
+const port = process.env.PORT || 8087;
 
 /** Initialization **/
 const app = express();
