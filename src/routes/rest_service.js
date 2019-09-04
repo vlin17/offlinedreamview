@@ -24,7 +24,8 @@ router.get('/map/getMapPic', (req, res) => {
     const mapId = req.query.mapId;
     const row = req.query.i;
     const col = req.query.j;
-    const imageName = `0.05_${row}_${col}_1024.png`;
+    const mpp = req.query.mpp;
+    const imageName = `${mpp}_${row}_${col}_1024.png`;
     const imagePath = path.join(adu_data_path, '/map', mapId, imageName);
     console.log(imagePath);
 
